@@ -4,6 +4,6 @@ public interface IMovementStrategy
 {
     public void Move(Transform transform, float velocidad)
     {
-        threw new System.NotImplementedExcepcion();
+        throw new System.NotImplementedException();
     }
 }

@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class MovimientoLateral : IMovementStrategy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Move(Transform transform, float velocidad)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        float direccion = Input.GetAxis("Horizontal");
+        transform.Translate(direccion + velocidad + Time.deltaTime, 0,0);
     }
 }
