@@ -1,0 +1,9 @@
+using UnityEngine;
+
+public interface IMovementStrategy
+{
+    public void Move(Transform transform, float velocidad)
+    {
+        threw new System.NotImplementedExcepcion();
+    }
+}
