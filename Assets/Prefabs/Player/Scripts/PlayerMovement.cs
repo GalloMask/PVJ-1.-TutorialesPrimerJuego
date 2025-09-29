@@ -7,9 +7,8 @@ public class PlayerMovement : MonoBehaviour
     private float tiempoUltimaFuerza;
     private float intervaloTiempo;
 
-    private float velocidadLateral;
-
-    private IMovementStrategy strategy;
+    private IMovementStrategy movementStrategy;
+    private Player player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -17,14 +16,14 @@ public class PlayerMovement : MonoBehaviour
         fuerzaPorAplicar = new Vector3(0, 0, 300f);
         tiempoUltimaFuerza = 0f;
         intervaloTiempo = 2f;
-        velocidadLateral = 2f;
 
-        setStrategy(new MovimientoLateral());
+        player = new Player(2f, 5f);
+        SetMovementStrategy(new SmoothMovement());
     }
 
     public void Update()
     {
-        strategy.Move(transform, velocidadLateral);
+        MovePlayer();
     }
 
     private void FixedUpdate()
@@ -36,8 +35,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void setStrategy(IMovementStrategy strategy)
+    public void MovePlayer()
     {
-        this.strategy = strategy;
+        movementStrategy.Move(transform, player);
+    }
+
+    public void SetMovementStrategy(IMovementStrategy strategy)
+    {
+        this.movementStrategy = strategy;
     }
 }

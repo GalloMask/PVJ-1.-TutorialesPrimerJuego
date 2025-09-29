@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IMovementStrategy
 {
-    public void Move(Transform transform, float velocidad)
+    public void Move(Transform transform, Player player)
     {
         throw new System.NotImplementedException();
     }
