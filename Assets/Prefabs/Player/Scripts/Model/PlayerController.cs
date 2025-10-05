@@ -3,11 +3,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private PlayerMovement playerMovement;
+    private IMovementStrategy smoothStrategy;
+    private IMovementStrategy accelerateStrategy;
 
     private void Start()
     {
-        // Buscar el PlayerMovement en la escena
         playerMovement = Object.FindFirstObjectByType<PlayerMovement>();
+        
+        // Crear las estrategias una sola vez
+        smoothStrategy = new SmoothMovement();
+        accelerateStrategy = new AcelerateMovement();
         
         if (playerMovement == null)
         {
@@ -17,27 +22,30 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Detectar input horizontal
         float horizontalInput = Input.GetAxis("Horizontal");
         
-        // Debug para verificar que se está detectando el input
         if (Mathf.Abs(horizontalInput) > 0.1f)
         {
-            Debug.Log($"Input detectado: {horizontalInput}");
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // Usar estrategia acelerada
+                playerMovement.SetMovementStrategy(accelerateStrategy);
+                playerMovement.MovePlayer(horizontalInput);
+                Debug.Log("Movimiento ACELERADO");
+            }
+            else
+            {
+                // Usar estrategia suave
+                playerMovement.SetMovementStrategy(smoothStrategy);
+                playerMovement.MovePlayer(horizontalInput);
+                Debug.Log("Movimiento SUAVE");
+            }
         }
-
-        // Ejecutar comandos según las teclas presionadas
-        if (Input.GetKey(KeyCode.Space))
+        else
         {
-            ICommand accelerateCommand = new AccelerateMoveCommand(playerMovement, horizontalInput);
-            accelerateCommand.Execute();
-            Debug.Log("Comando acelerado ejecutado");
-        }
-        else if (Mathf.Abs(horizontalInput) > 0.1f)
-        {
-            ICommand moveCommand = new MoveCommand(playerMovement, horizontalInput);
-            moveCommand.Execute();
-            Debug.Log("Comando movimiento ejecutado");
+            // Cuando no hay input, mantener la estrategia pero con input 0
+            // Esto es importante para el frenado en AcelerateMovement
+            playerMovement.MovePlayer(0);
         }
     }
 }

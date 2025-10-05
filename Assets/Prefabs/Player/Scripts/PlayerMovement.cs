@@ -16,43 +16,26 @@ public class PlayerMovement : MonoBehaviour
         tiempoUltimaFuerza = 0f;
         intervaloTiempo = 2f;
 
-        // Inicializar el player con valores
-        player = new Player(5f, 10f); // velocidad, aceleración
-        
-        // Asegurar que hay una estrategia por defecto
+        player = new Player(2f, 5f);
         SetMovementStrategy(new SmoothMovement());
-        
-        Debug.Log("PlayerMovement inicializado correctamente");
     }
 
     private void FixedUpdate()
     {
         tiempoUltimaFuerza += Time.fixedDeltaTime;
         if(tiempoUltimaFuerza >= intervaloTiempo){
-            Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddForce(fuerzaPorAplicar);
-            }
+            gameObject.GetComponent<Rigidbody>().AddForce(fuerzaPorAplicar);
             tiempoUltimaFuerza = 0f;
         }
     }
 
     public void MovePlayer(float input)
     {
-        if (movementStrategy != null)
-        {
-            movementStrategy.Move(transform, player, input);
-        }
-        else
-        {
-            Debug.LogError("No hay estrategia de movimiento asignada!");
-        }
+        movementStrategy.Move(transform, player, input);
     }
 
     public void SetMovementStrategy(IMovementStrategy strategy)
     {
         this.movementStrategy = strategy;
-        Debug.Log($"Estrategia cambiada a: {strategy.GetType().Name}");
     }
 }
