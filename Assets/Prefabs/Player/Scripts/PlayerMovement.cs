@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
     private IMovementStrategy movementStrategy;
     private Player player;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         fuerzaPorAplicar = new Vector3(0, 0, 300f);
@@ -19,11 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
         player = new Player(2f, 5f);
         SetMovementStrategy(new SmoothMovement());
-    }
-
-    public void Update()
-    {
-        MovePlayer();
     }
 
     private void FixedUpdate()
@@ -35,9 +29,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void MovePlayer()
+    public void MovePlayer(float input)
     {
-        movementStrategy.Move(transform, player);
+        movementStrategy.Move(transform, player, input);
     }
 
     public void SetMovementStrategy(IMovementStrategy strategy)
