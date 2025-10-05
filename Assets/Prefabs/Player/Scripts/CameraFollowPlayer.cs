@@ -7,8 +7,8 @@ public class CameraFollowPlayer : MonoBehaviour
 
     private void Start()
     {
-        offset = new Vector3(0, 5, -10);
-        playerMovement = FindObjectOfType<PlayerMovement>();
+        offset = new Vector3(0, 2, -8);
+        playerMovement = Object.FindFirstObjectByType<PlayerMovement>();
     }
 
     private void LateUpdate()
