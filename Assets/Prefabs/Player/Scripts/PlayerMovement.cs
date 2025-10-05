@@ -21,11 +21,6 @@ public class PlayerMovement : MonoBehaviour
         SetMovementStrategy(new SmoothMovement());
     }
 
-    public void Update()
-    {
-        MovePlayer();
-    }
-
     private void FixedUpdate()
     {
         tiempoUltimaFuerza += Time.fixedDeltaTime;
@@ -35,9 +30,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void MovePlayer()
+    public void MovePlayer(float input)
     {
-        movementStrategy.Move(transform, player);
+        movementStrategy.Move(transform, player, input);
     }
 
     public void SetMovementStrategy(IMovementStrategy strategy)
